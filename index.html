@@ -1,21 +1,641 @@
 <!DOCTYPE html>
-<html>
+<html lang="nl">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Melle Engineering Wiki</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Engineering Wiki</title>
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --card:#121923;
+      --card2:#0f151e;
+      --text:#e7eef7;
+      --muted:#a8b3c2;
+      --line:rgba(255,255,255,.08);
+      --accent:#5dd6ff;
+      --accent2:#8b5cf6;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --r:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 20% -10%, rgba(93,214,255,.12), transparent 60%),
+                  radial-gradient(900px 700px at 80% 0%, rgba(139,92,246,.12), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+    }
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:980px; margin:0 auto; padding:20px 16px 40px}
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; padding:14px 14px;
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border:1px solid var(--line); border-radius:var(--r);
+      box-shadow: var(--shadow);
+      position: sticky; top: 12px; z-index: 10;
+      backdrop-filter: blur(10px);
+    }
+    .brand{display:flex; align-items:center; gap:10px; min-width:0}
+    .logo{
+      width:34px; height:34px; border-radius:12px;
+      background:linear-gradient(135deg, rgba(93,214,255,.9), rgba(139,92,246,.85));
+      box-shadow: 0 10px 18px rgba(93,214,255,.12);
+      flex:0 0 auto;
+    }
+    .brand h1{font-size:16px; margin:0; letter-spacing:.2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+    .pill{
+      font-size:12px; color:var(--muted);
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      padding:6px 10px; border-radius:999px;
+      white-space:nowrap;
+    }
+
+    .search{
+      margin:18px 2px 14px;
+      display:flex; gap:10px; align-items:center;
+      background: rgba(255,255,255,.03);
+      border:1px solid var(--line);
+      border-radius: var(--r);
+      padding:12px 12px;
+    }
+    .search input{
+      width:100%;
+      background:transparent;
+      border:0; outline:0;
+      color:var(--text);
+      font-size:15px;
+    }
+    .search .kbd{
+      color:var(--muted);
+      font-size:12px;
+      border:1px solid var(--line);
+      padding:4px 8px;
+      border-radius:10px;
+      background: rgba(0,0,0,.18);
+      user-select:none;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:12px;
+    }
+    @media (min-width: 820px){
+      .grid{grid-template-columns: 1.2fr .8fr}
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border:1px solid var(--line);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card .head{
+      padding:14px 14px 10px;
+      display:flex; align-items:flex-end; justify-content:space-between; gap:10px;
+      border-bottom:1px solid var(--line);
+      background: rgba(0,0,0,.15);
+    }
+    .card .head .title{font-size:14px; margin:0}
+    .card .head .sub{font-size:12px; color:var(--muted); margin:0}
+    .card .body{padding:10px 10px 12px}
+
+    .list{display:flex; flex-direction:column; gap:8px}
+    .row{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px;
+      padding:12px 12px;
+      background: rgba(255,255,255,.03);
+      border:1px solid var(--line);
+      border-radius: 14px;
+      cursor:pointer;
+      transition: transform .06s ease, background .12s ease;
+    }
+    .row:hover{background: rgba(255,255,255,.05)}
+    .row:active{transform: scale(.99)}
+    .row .left{min-width:0}
+    .row .name{font-size:14px; margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+    .row .meta{font-size:12px; margin:2px 0 0; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+    .row .chev{color:rgba(231,238,247,.7); font-size:18px; line-height:1}
+
+    .chips{display:flex; flex-wrap:wrap; gap:8px}
+    .chip{
+      padding:8px 10px;
+      font-size:12px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      cursor:pointer;
+    }
+    .chip:hover{background: rgba(255,255,255,.05)}
+    .muted{color:var(--muted)}
+    .hidden{display:none !important}
+
+    /* page view */
+    .page{
+      margin-top:14px;
+      padding:14px;
+    }
+    .page-top{
+      display:flex; gap:10px; align-items:center; justify-content:space-between; flex-wrap:wrap;
+      margin-bottom:10px;
+    }
+    .btn{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius: 14px;
+      cursor:pointer;
+    }
+    .btn:hover{background: rgba(255,255,255,.05)}
+    .page h2{margin:0; font-size:18px}
+    .page p{margin:6px 0 0; color:var(--muted); font-size:13px}
+
+    table{
+      width:100%;
+      border-collapse: collapse;
+      margin-top:12px;
+      overflow:hidden;
+      border-radius: 14px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.18);
+    }
+    th, td{
+      padding:10px 10px;
+      text-align:left;
+      border-bottom:1px solid var(--line);
+      font-size:13px;
+      vertical-align:top;
+    }
+    th{color:rgba(231,238,247,.9); font-weight:600; background: rgba(255,255,255,.04)}
+    tr:last-child td{border-bottom:0}
+    .note{
+      margin-top:10px;
+      font-size:12px;
+      color:var(--muted);
+      border:1px dashed var(--line);
+      background: rgba(255,255,255,.02);
+      padding:10px 12px;
+      border-radius: 14px;
+    }
+    .footer{
+      margin-top:16px;
+      color:var(--muted);
+      font-size:12px;
+      text-align:center;
+      opacity:.9;
+    }
+  </style>
 </head>
-
 <body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <h1 id="appTitle">Engineering Wiki</h1>
+      </div>
+      <div class="pill" id="statusPill">offline-first • GitHub Pages</div>
+    </div>
 
-<h1>Melle Engineering Wiki</h1>
+    <div id="homeView">
+      <div class="search">
+        <input id="searchInput" type="search" placeholder="Zoeken… (bijv. M8, PKZM01, POM, 2.5 ton)" autocomplete="off" />
+        <div class="kbd">/</div>
+      </div>
 
-<h2>Legenda</h2>
+      <div class="grid">
+        <div class="card">
+          <div class="head">
+            <div>
+              <p class="title">Hoofdcategorieën</p>
+              <p class="sub">Klik om onderdelen te openen</p>
+            </div>
+            <div class="pill" id="countPill">0 items</div>
+          </div>
+          <div class="body">
+            <div class="list" id="categoryList"></div>
+          </div>
+        </div>
 
-<ul>
-<li><a href="motoren.html">Motoren</a></li>
-<li><a href="tandwielen.html">Tandwielen</a></li>
-<li><a href="transportbanden.html">Transportbanden</a></li>
-</ul>
+        <div class="card">
+          <div class="head">
+            <div>
+              <p class="title">Snelkoppelingen</p>
+              <p class="sub">Handig op mobiel</p>
+            </div>
+          </div>
+          <div class="body">
+            <div class="chips" id="quickChips"></div>
+            <div class="note">
+              Tip: gebruik de zoekbalk als “command palette”. Typ en druk op Enter.
+            </div>
+          </div>
+        </div>
+      </div>
 
+      <div class="card" style="margin-top:12px">
+        <div class="head">
+          <div>
+            <p class="title">Zoekresultaten</p>
+            <p class="sub muted" id="searchHint">Begin met typen om resultaten te zien</p>
+          </div>
+        </div>
+        <div class="body">
+          <div class="list" id="resultList"></div>
+        </div>
+      </div>
+
+      <div class="footer">v1 • alles in 1 bestand • later uitbreidbaar met meer pagina’s</div>
+    </div>
+
+    <div id="pageView" class="card hidden">
+      <div class="page">
+        <div class="page-top">
+          <button class="btn" id="backBtn">← Terug</button>
+          <div class="pill" id="crumbPill">…</div>
+        </div>
+        <h2 id="pageTitle">…</h2>
+        <p id="pageDesc">…</p>
+        <div id="pageContent"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Data: pas dit later aan naar jouw echte structuur
+    const DATA = [
+      {
+        id: "mechanica",
+        name: "Mechanica",
+        desc: "Tandwielen, lagers, materialen, verbindingen",
+        items: [
+          {
+            id: "tandwielen",
+            name: "Tandwielen",
+            keywords: ["tandwiel", "helical", "schuin", "module", "tanden", "helix", "pressure angle"],
+            desc: "Basis gegevens en metingen",
+            table: {
+              columns: ["Onderwerp", "Waarde", "Notitie"],
+              rows: [
+                ["Module", "—", "invullen"],
+                ["Aantal tanden", "—", "invullen"],
+                ["Helixhoek", "—", "invullen"],
+                ["Steekdiameter", "—", "invullen"]
+              ]
+            }
+          },
+          {
+            id: "materialen",
+            name: "Materialen",
+            keywords: ["rvs304", "s700mc", "hardox", "6082", "dc01"],
+            desc: "Snelle referentie (later uitbreiden)",
+            table: {
+              columns: ["Materiaal", "Type", "Opmerking"],
+              rows: [
+                ["RVS304", "austenitisch", "corrosiebestendig"],
+                ["DC01", "staal plaat", "goed te zetten"],
+                ["6082-T6", "aluminium", "sterk en bewerkbaar"]
+              ]
+            }
+          }
+        ]
+      },
+      {
+        id: "elektro",
+        name: "Elektro",
+        desc: "Motoren, beveiligingen, kabels, aansluitingen",
+        items: [
+          {
+            id: "motorbeveiliging",
+            name: "Motorbeveiligingen",
+            keywords: ["pkzm01", "motorbeveiliging", "eaton", "instelstroom", "kw"],
+            desc: "Selectiehulp en voorbeelden",
+            table: {
+              columns: ["Type", "Range", "Voorbeeld"],
+              rows: [
+                ["Eaton PKZM01", "—", "invullen"],
+                ["—", "—", "—"]
+              ]
+            }
+          },
+          {
+            id: "kabeldoorsnede",
+            name: "Kabeldoorsnedes",
+            keywords: ["mm2", "cee", "32a", "5-polig", "ader"],
+            desc: "Snel overzicht (later normen toevoegen)",
+            table: {
+              columns: ["Toepassing", "Stroom", "Advies"],
+              rows: [
+                ["CEE 32A 5-polig", "32A", "invullen o.b.v. lengte/omgeving"],
+                ["—", "—", "—"]
+              ]
+            }
+          }
+        ]
+      },
+      {
+        id: "transport",
+        name: "Transport",
+        desc: "Transportbanden, kettingen, opstellingen",
+        items: [
+          {
+            id: "modulaire-banden",
+            name: "Modulaire banden",
+            keywords: ["m2510", "pom", "pbt", "pa", "pp", "intralox", "flat top"],
+            desc: "Bandtypes en pennen",
+            table: {
+              columns: ["Type", "Materiaal", "Notitie"],
+              rows: [
+                ["M2510 Flat Top 1\"", "POM", "food grade afhankelijk DoC"],
+                ["Pennen", "PBT / POM / PA", "keuze afhankelijk toepassing"]
+              ]
+            }
+          }
+        ]
+      }
+    ];
+
+    // Helpers
+    const $ = (sel) => document.querySelector(sel);
+    const homeView = $("#homeView");
+    const pageView = $("#pageView");
+    const categoryList = $("#categoryList");
+    const resultList = $("#resultList");
+    const quickChips = $("#quickChips");
+    const searchInput = $("#searchInput");
+    const searchHint = $("#searchHint");
+    const countPill = $("#countPill");
+
+    function slugify(s){ return String(s).toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9\-]/g,''); }
+
+    function allItems(){
+      const out = [];
+      for (const cat of DATA){
+        for (const item of cat.items){
+          out.push({
+            catId: cat.id,
+            catName: cat.name,
+            catDesc: cat.desc,
+            ...item
+          });
+        }
+      }
+      return out;
+    }
+
+    const ITEMS = allItems();
+
+    function setCount(){
+      countPill.textContent = `${ITEMS.length} items`;
+    }
+
+    function renderCategories(){
+      categoryList.innerHTML = "";
+      for (const cat of DATA){
+        const el = document.createElement("div");
+        el.className = "row";
+        el.innerHTML = `
+          <div class="left">
+            <p class="name">${cat.name}</p>
+            <p class="meta">${cat.desc}</p>
+          </div>
+          <div class="chev">›</div>
+        `;
+        el.addEventListener("click", () => openCategory(cat.id));
+        categoryList.appendChild(el);
+      }
+    }
+
+    function renderQuickChips(){
+      // kies een paar populaire items als snelkoppeling
+      const pick = ["tandwielen", "motorbeveiliging", "modulaire-banden", "materialen"];
+      quickChips.innerHTML = "";
+      for (const id of pick){
+        const it = ITEMS.find(x => x.id === id);
+        if (!it) continue;
+        const c = document.createElement("div");
+        c.className = "chip";
+        c.textContent = it.name;
+        c.addEventListener("click", () => openItem(it.catId, it.id));
+        quickChips.appendChild(c);
+      }
+    }
+
+    function renderResults(q){
+      const query = q.trim().toLowerCase();
+      resultList.innerHTML = "";
+      if (!query){
+        searchHint.textContent = "Begin met typen om resultaten te zien";
+        return;
+      }
+      const hits = ITEMS
+        .map(it => {
+          const hay = [
+            it.name,
+            it.desc || "",
+            it.catName,
+            ...(it.keywords || [])
+          ].join(" ").toLowerCase();
+          const score = hay.includes(query) ? 1 : 0;
+          return { it, score, hay };
+        })
+        .filter(x => x.score > 0)
+        .slice(0, 25)
+        .map(x => x.it);
+
+      searchHint.textContent = hits.length ? `${hits.length} resultaat/resultaten` : "Geen resultaten";
+
+      for (const it of hits){
+        const el = document.createElement("div");
+        el.className = "row";
+        el.innerHTML = `
+          <div class="left">
+            <p class="name">${it.name}</p>
+            <p class="meta">${it.catName} • ${it.desc || ""}</p>
+          </div>
+          <div class="chev">›</div>
+        `;
+        el.addEventListener("click", () => openItem(it.catId, it.id));
+        resultList.appendChild(el);
+      }
+    }
+
+    function openCategory(catId){
+      // categoriepagina is gewoon een lijst met sub-items
+      const cat = DATA.find(c => c.id === catId);
+      if (!cat) return;
+      const hash = `#/cat/${catId}`;
+      location.hash = hash;
+      showPage({
+        crumb: cat.name,
+        title: cat.name,
+        desc: cat.desc,
+        content: (() => {
+          const wrap = document.createElement("div");
+          const list = document.createElement("div");
+          list.className = "list";
+          for (const item of cat.items){
+            const row = document.createElement("div");
+            row.className = "row";
+            row.innerHTML = `
+              <div class="left">
+                <p class="name">${item.name}</p>
+                <p class="meta">${item.desc || ""}</p>
+              </div>
+              <div class="chev">›</div>
+            `;
+            row.addEventListener("click", () => openItem(catId, item.id));
+            list.appendChild(row);
+          }
+          wrap.appendChild(list);
+          return wrap;
+        })()
+      });
+    }
+
+    function openItem(catId, itemId){
+      const it = ITEMS.find(x => x.catId === catId && x.id === itemId);
+      if (!it) return;
+      location.hash = `#/item/${catId}/${itemId}`;
+      const content = document.createElement("div");
+
+      if (it.table){
+        const table = document.createElement("table");
+        const thead = document.createElement("thead");
+        const trh = document.createElement("tr");
+        for (const c of it.table.columns){
+          const th = document.createElement("th");
+          th.textContent = c;
+          trh.appendChild(th);
+        }
+        thead.appendChild(trh);
+        table.appendChild(thead);
+
+        const tbody = document.createElement("tbody");
+        for (const r of it.table.rows){
+          const tr = document.createElement("tr");
+          for (const cell of r){
+            const td = document.createElement("td");
+            td.textContent = cell;
+            tr.appendChild(td);
+          }
+          tbody.appendChild(tr);
+        }
+        table.appendChild(tbody);
+        content.appendChild(table);
+      } else {
+        const p = document.createElement("p");
+        p.className = "muted";
+        p.textContent = "Nog geen content. Voeg straks een tabel of tekst toe in de DATA bovenin.";
+        content.appendChild(p);
+      }
+
+      const note = document.createElement("div");
+      note.className = "note";
+      note.textContent = "Wil je hier later sorteren/filteren? Dat kunnen we toevoegen met een kleine JS-table helper.";
+      content.appendChild(note);
+
+      showPage({
+        crumb: `${it.catName} • ${it.name}`,
+        title: it.name,
+        desc: it.desc || it.catDesc || "",
+        content
+      });
+    }
+
+    function showHome(){
+      homeView.classList.remove("hidden");
+      pageView.classList.add("hidden");
+      $("#crumbPill").textContent = "Home";
+      // focus niet altijd op iPhone; alleen desktop prettig
+    }
+
+    function showPage({crumb, title, desc, content}){
+      homeView.classList.add("hidden");
+      pageView.classList.remove("hidden");
+      $("#crumbPill").textContent = crumb || "";
+      $("#pageTitle").textContent = title || "";
+      $("#pageDesc").textContent = desc || "";
+      const holder = $("#pageContent");
+      holder.innerHTML = "";
+      holder.appendChild(content);
+      window.scrollTo({top:0, behavior:"instant"});
+    }
+
+    function route(){
+      const h = location.hash || "";
+      if (!h || h === "#/" || h === "#"){
+        showHome();
+        return;
+      }
+      const parts = h.replace(/^#\//,"").split("/").filter(Boolean);
+      if (parts[0] === "cat" && parts[1]){
+        openCategory(parts[1]);
+        return;
+      }
+      if (parts[0] === "item" && parts[1] && parts[2]){
+        openItem(parts[1], parts[2]);
+        return;
+      }
+      showHome();
+    }
+
+    // Events
+    $("#backBtn").addEventListener("click", () => {
+      // als je diep zit: terug naar home
+      // hash back werkt fijn, maar op iOS soms verwarrend als je direct op item landt
+      if (location.hash && location.hash !== "#/" && location.hash !== "#"){
+        // ga 1 stap terug in hash-navigatie
+        history.back();
+        // fallback
+        setTimeout(() => {
+          if (pageView.classList.contains("hidden")) return;
+          // als er niks gebeurde, naar home
+          showHome();
+          location.hash = "#/";
+        }, 250);
+      } else {
+        showHome();
+        location.hash = "#/";
+      }
+    });
+
+    searchInput.addEventListener("input", (e) => renderResults(e.target.value));
+    searchInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter"){
+        const q = searchInput.value.trim();
+        if (!q) return;
+        const query = q.toLowerCase();
+        const hit = ITEMS.find(it => {
+          const hay = [it.name, it.desc || "", it.catName, ...(it.keywords || [])].join(" ").toLowerCase();
+          return hay.includes(query);
+        });
+        if (hit) openItem(hit.catId, hit.id);
+      }
+    });
+
+    // / to focus search (desktop handig)
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "/" && document.activeElement !== searchInput){
+        e.preventDefault();
+        searchInput.focus();
+      }
+    });
+
+    window.addEventListener("hashchange", route);
+
+    // Init
+    setCount();
+    renderCategories();
+    renderQuickChips();
+    renderResults("");
+    if (!location.hash) location.hash = "#/";
+    route();
+  </script>
 </body>
 </html>
