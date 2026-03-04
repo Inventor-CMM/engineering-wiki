@@ -7,12 +7,9 @@
   <style>
     :root{
       --bg:#0b0f14;
-      --card:#121923;
       --text:#e7eef7;
       --muted:#a8b3c2;
       --line:rgba(255,255,255,.08);
-      --accent:#5dd6ff;
-      --accent2:#8b5cf6;
       --shadow: 0 10px 30px rgba(0,0,0,.35);
       --r:18px;
     }
@@ -52,8 +49,26 @@
       white-space:nowrap;
     }
 
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border:1px solid var(--line);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card + .card{ margin-top:12px; }
+    .card .head{
+      padding:14px 14px 10px;
+      display:flex; align-items:flex-end; justify-content:space-between; gap:10px;
+      border-bottom:1px solid var(--line);
+      background: rgba(0,0,0,.15);
+    }
+    .card .head .title{font-size:14px; margin:0}
+    .card .head .sub{font-size:12px; color:var(--muted); margin:0}
+    .card .body{padding:10px 10px 12px}
+
     .search{
-      margin:18px 2px 12px;
+      margin:12px 2px 12px;
       display:flex; gap:10px; align-items:center;
       background: rgba(255,255,255,.03);
       border:1px solid var(--line);
@@ -77,25 +92,6 @@
       user-select:none;
     }
 
-    .card{
-      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      border:1px solid var(--line);
-      border-radius: var(--r);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-    .card + .card{ margin-top:12px; }
-
-    .card .head{
-      padding:14px 14px 10px;
-      display:flex; align-items:flex-end; justify-content:space-between; gap:10px;
-      border-bottom:1px solid var(--line);
-      background: rgba(0,0,0,.15);
-    }
-    .card .head .title{font-size:14px; margin:0}
-    .card .head .sub{font-size:12px; color:var(--muted); margin:0}
-    .card .body{padding:10px 10px 12px}
-
     .list{display:flex; flex-direction:column; gap:8px}
     .row{
       display:flex; align-items:center; justify-content:space-between;
@@ -118,10 +114,7 @@
     .hidden{display:none !important}
 
     /* page view */
-    .page{
-      margin-top:14px;
-      padding:14px;
-    }
+    .page{ padding:14px; }
     .page-top{
       display:flex; gap:10px; align-items:center; justify-content:space-between; flex-wrap:wrap;
       margin-bottom:10px;
@@ -181,15 +174,25 @@
         <div class="logo" aria-hidden="true"></div>
         <h1 id="appTitle">Engineering Wiki</h1>
       </div>
-      <div class="pill" id="statusPill">offline-first • GitHub Pages</div>
+      <div class="pill" id="statusPill">GitHub Pages</div>
     </div>
 
     <div id="homeView">
+
+      <!-- Categorieën boven de zoekbalk -->
+      <div class="card" id="catsTop">
+        <div class="body">
+          <div class="list" id="categoryListTop"></div>
+        </div>
+      </div>
+
+      <!-- Zoekbalk -->
       <div class="search">
-        <input id="searchInput" type="search" placeholder="Zoeken… (bijv. M8, PKZM01, POM, 2.5 ton)" autocomplete="off" />
+        <input id="searchInput" type="search" placeholder="Zoeken… (bijv. DIN 985, Ruko, band snelheid, zetmaat)" autocomplete="off" />
         <div class="kbd">/</div>
       </div>
 
+      <!-- Zoekresultaten direct onder zoekbalk -->
       <div class="card" id="resultsCard">
         <div class="head">
           <div>
@@ -203,21 +206,10 @@
         </div>
       </div>
 
-      <div class="card" id="catsCard">
-        <div class="head">
-          <div>
-            <p class="title">Hoofdcategorieën</p>
-            <p class="sub">Klik om onderdelen te openen</p>
-          </div>
-        </div>
-        <div class="body">
-          <div class="list" id="categoryList"></div>
-        </div>
-      </div>
-
-      <div class="footer">v1 • alles in 1 bestand • later uitbreidbaar</div>
+      <div class="footer">v1 • categorieën + zoeken • later tabellen invullen</div>
     </div>
 
+    <!-- Detail view -->
     <div id="pageView" class="card hidden">
       <div class="page">
         <div class="page-top">
@@ -232,104 +224,54 @@
   </div>
 
   <script>
-    // Data: pas dit later aan naar jouw echte structuur
+    // ====== JOUW STRUCTUUR (nog geen inhoud ingevuld) ======
     const DATA = [
       {
-        id: "mechanica",
-        name: "Mechanica",
-        desc: "Tandwielen, lagers, materialen, verbindingen",
+        id: "bevestigingsmateriaal",
+        name: "Bevestigingsmateriaal",
+        desc: "Ringen en moeren",
         items: [
-          {
-            id: "tandwielen",
-            name: "Tandwielen",
-            keywords: ["tandwiel", "helical", "schuin", "module", "tanden", "helix", "pressure angle"],
-            desc: "Basis gegevens en metingen",
-            table: {
-              columns: ["Onderwerp", "Waarde", "Notitie"],
-              rows: [
-                ["Module", "—", "invullen"],
-                ["Aantal tanden", "—", "invullen"],
-                ["Helixhoek", "—", "invullen"],
-                ["Steekdiameter", "—", "invullen"]
-              ]
-            }
-          },
-          {
-            id: "materialen",
-            name: "Materialen",
-            keywords: ["rvs304", "s700mc", "hardox", "6082", "dc01"],
-            desc: "Snelle referentie (later uitbreiden)",
-            table: {
-              columns: ["Materiaal", "Type", "Opmerking"],
-              rows: [
-                ["RVS304", "austenitisch", "corrosiebestendig"],
-                ["DC01", "staal plaat", "goed te zetten"],
-                ["6082-T6", "aluminium", "sterk en bewerkbaar"]
-              ]
-            }
-          }
+          { id: "din125a", name: "DIN 125-A Sluitringen", keywords: ["din125", "din 125-a", "sluitring", "ring"], desc: "" },
+          { id: "din934",  name: "DIN 934 Moeren",        keywords: ["din934", "moer", "moeren"], desc: "" },
+          { id: "din985",  name: "DIN 985 Borgmoeren",    keywords: ["din985", "borgmoer", "nyloc"], desc: "" },
+          { id: "din9021", name: "DIN 9021 Carrosserieringen", keywords: ["din9021", "carrosserie", "carrosseriering", "ring"], desc: "" }
         ]
       },
       {
-        id: "elektro",
-        name: "Elektro",
-        desc: "Motoren, beveiligingen, kabels, aansluitingen",
+        id: "gereedschap",
+        name: "Gereedschap afmetingen",
+        desc: "Sets en gereedschappen",
         items: [
-          {
-            id: "motorbeveiliging",
-            name: "Motorbeveiligingen",
-            keywords: ["pkzm01", "motorbeveiliging", "eaton", "instelstroom", "kw"],
-            desc: "Selectiehulp en voorbeelden",
-            table: {
-              columns: ["Type", "Range", "Voorbeeld"],
-              rows: [
-                ["Eaton PKZM01", "—", "invullen"],
-                ["—", "—", "—"]
-              ]
-            }
-          },
-          {
-            id: "kabeldoorsnede",
-            name: "Kabeldoorsnedes",
-            keywords: ["mm2", "cee", "32a", "5-polig", "ader"],
-            desc: "Snel overzicht (later normen toevoegen)",
-            table: {
-              columns: ["Toepassing", "Stroom", "Advies"],
-              rows: [
-                ["CEE 32A 5-polig", "32A", "invullen o.b.v. lengte/omgeving"],
-                ["—", "—", "—"]
-              ]
-            }
-          }
+          { id: "ruko245048ro", name: "Ruko 245048RO Machinetapboorset", keywords: ["ruko", "245048ro", "machinetap", "tapboor", "tap"], desc: "" },
+          { id: "facom440",     name: "Facom 440", keywords: ["facom", "440", "sleutel", "steeksleutel"], desc: "" }
         ]
       },
       {
-        id: "transport",
-        name: "Transport",
-        desc: "Transportbanden, kettingen, opstellingen",
+        id: "formules",
+        name: "Formules",
+        desc: "Berekingen voor werk",
         items: [
-          {
-            id: "modulaire-banden",
-            name: "Modulaire banden",
-            keywords: ["m2510", "pom", "pbt", "pa", "pp", "intralox", "flat top"],
-            desc: "Bandtypes en pennen",
-            table: {
-              columns: ["Type", "Materiaal", "Notitie"],
-              rows: [
-                ["M2510 Flat Top 1\"", "POM", "food grade afhankelijk DoC"],
-                ["Pennen", "PBT / POM / PA", "keuze afhankelijk toepassing"]
-              ]
-            }
-          }
+          { id: "bandsnelheid", name: "Band snelheid", keywords: ["band", "snelheid", "m/min", "rpm", "transportband"], desc: "" },
+          { id: "hydraulischekracht", name: "Hydraulische kracht", keywords: ["hydrauliek", "kracht", "druk", "bar", "cilinder"], desc: "" }
+        ]
+      },
+      {
+        id: "juffermans",
+        name: "Juffermans Machinebouw",
+        desc: "Interne kennis",
+        items: [
+          { id: "dertec", name: "Dertec", keywords: ["dertec"], desc: "" },
+          { id: "minimale-zetmaat", name: "Minimale zetmaat", keywords: ["zetmaat", "zetten", "plaatwerk"], desc: "" },
+          { id: "insnijding", name: "Insnijding", keywords: ["insnijding", "plaatwerk", "zetwerk"], desc: "" },
+          { id: "zichtzijde", name: "Zichtzijde aangeven", keywords: ["zichtzijde", "aangeven", "plaatwerk"], desc: "" }
         ]
       }
     ];
 
-    // Helpers
+    // ====== APP LOGICA ======
     const $ = (sel) => document.querySelector(sel);
     const homeView = $("#homeView");
     const pageView = $("#pageView");
-    const categoryList = $("#categoryList");
     const resultList = $("#resultList");
     const searchInput = $("#searchInput");
     const searchHint = $("#searchHint");
@@ -349,7 +291,6 @@
       }
       return out;
     }
-
     const ITEMS = allItems();
 
     function setCount(){
@@ -357,25 +298,30 @@
     }
 
     function renderCategories(){
-      categoryList.innerHTML = "";
-      for (const cat of DATA){
-        const el = document.createElement("div");
-        el.className = "row";
-        el.innerHTML = `
-          <div class="left">
-            <p class="name">${cat.name}</p>
-            <p class="meta">${cat.desc}</p>
-          </div>
-          <div class="chev">›</div>
-        `;
-        el.addEventListener("click", () => openCategory(cat.id));
-        categoryList.appendChild(el);
-      }
+      const lists = [$("#categoryListTop")].filter(Boolean);
+
+      lists.forEach(list => {
+        list.innerHTML = "";
+        DATA.forEach(cat => {
+          const el = document.createElement("div");
+          el.className = "row";
+          el.innerHTML = `
+            <div class="left">
+              <p class="name">${cat.name}</p>
+              <p class="meta">${cat.desc}</p>
+            </div>
+            <div class="chev">›</div>
+          `;
+          el.addEventListener("click", () => openCategory(cat.id));
+          list.appendChild(el);
+        });
+      });
     }
 
     function renderResults(q){
       const query = q.trim().toLowerCase();
       resultList.innerHTML = "";
+
       if (!query){
         searchHint.textContent = "Begin met typen om resultaten te zien";
         return;
@@ -403,7 +349,7 @@
         el.innerHTML = `
           <div class="left">
             <p class="name">${it.name}</p>
-            <p class="meta">${it.catName} • ${it.desc || ""}</p>
+            <p class="meta">${it.catName}</p>
           </div>
           <div class="chev">›</div>
         `;
@@ -416,6 +362,7 @@
       const cat = DATA.find(c => c.id === catId);
       if (!cat) return;
       location.hash = `#/cat/${catId}`;
+
       showPage({
         crumb: cat.name,
         title: cat.name,
@@ -424,6 +371,7 @@
           const wrap = document.createElement("div");
           const list = document.createElement("div");
           list.className = "list";
+
           for (const item of cat.items){
             const row = document.createElement("div");
             row.className = "row";
@@ -437,6 +385,7 @@
             row.addEventListener("click", () => openItem(catId, item.id));
             list.appendChild(row);
           }
+
           wrap.appendChild(list);
           return wrap;
         })()
@@ -449,40 +398,14 @@
       location.hash = `#/item/${catId}/${itemId}`;
 
       const content = document.createElement("div");
-      if (it.table){
-        const table = document.createElement("table");
-        const thead = document.createElement("thead");
-        const trh = document.createElement("tr");
-        for (const c of it.table.columns){
-          const th = document.createElement("th");
-          th.textContent = c;
-          trh.appendChild(th);
-        }
-        thead.appendChild(trh);
-        table.appendChild(thead);
-
-        const tbody = document.createElement("tbody");
-        for (const r of it.table.rows){
-          const tr = document.createElement("tr");
-          for (const cell of r){
-            const td = document.createElement("td");
-            td.textContent = cell;
-            tr.appendChild(td);
-          }
-          tbody.appendChild(tr);
-        }
-        table.appendChild(tbody);
-        content.appendChild(table);
-      } else {
-        const p = document.createElement("p");
-        p.className = "muted";
-        p.textContent = "Nog geen content. Voeg straks een tabel of tekst toe in de DATA bovenin.";
-        content.appendChild(p);
-      }
+      const p = document.createElement("p");
+      p.className = "muted";
+      p.textContent = "Nog geen inhoud. Voeg straks een tabel/tekst toe in de DATA bij dit item.";
+      content.appendChild(p);
 
       const note = document.createElement("div");
       note.className = "note";
-      note.textContent = "Later kunnen we: sorteren, filters, favorieten en een ‘recent bekeken’ lijst toevoegen.";
+      note.textContent = "Tip: straks kun je hier tabellen toevoegen, of een reken-tool (bij Formules).";
       content.appendChild(note);
 
       showPage({
@@ -529,12 +452,11 @@
       showHome();
     }
 
-    // Events
+    // Back button
     $("#backBtn").addEventListener("click", () => {
       if (location.hash && location.hash !== "#/" && location.hash !== "#"){
         history.back();
         setTimeout(() => {
-          // fallback naar home
           if (!pageView.classList.contains("hidden") && (location.hash === "" || location.hash === "#")){
             showHome();
             location.hash = "#/";
@@ -546,6 +468,7 @@
       }
     });
 
+    // Search events
     searchInput.addEventListener("input", (e) => renderResults(e.target.value));
     searchInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter"){
@@ -559,6 +482,7 @@
       }
     });
 
+    // "/" focuses search (desktop)
     document.addEventListener("keydown", (e) => {
       if (e.key === "/" && document.activeElement !== searchInput){
         e.preventDefault();
