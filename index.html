@@ -8,7 +8,6 @@
     :root{
       --bg:#0b0f14;
       --card:#121923;
-      --card2:#0f151e;
       --text:#e7eef7;
       --muted:#a8b3c2;
       --line:rgba(255,255,255,.08);
@@ -54,7 +53,7 @@
     }
 
     .search{
-      margin:18px 2px 14px;
+      margin:18px 2px 12px;
       display:flex; gap:10px; align-items:center;
       background: rgba(255,255,255,.03);
       border:1px solid var(--line);
@@ -78,15 +77,6 @@
       user-select:none;
     }
 
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:12px;
-    }
-    @media (min-width: 820px){
-      .grid{grid-template-columns: 1.2fr .8fr}
-    }
-
     .card{
       background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
       border:1px solid var(--line);
@@ -94,6 +84,8 @@
       box-shadow: var(--shadow);
       overflow:hidden;
     }
+    .card + .card{ margin-top:12px; }
+
     .card .head{
       padding:14px 14px 10px;
       display:flex; align-items:flex-end; justify-content:space-between; gap:10px;
@@ -122,16 +114,6 @@
     .row .meta{font-size:12px; margin:2px 0 0; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
     .row .chev{color:rgba(231,238,247,.7); font-size:18px; line-height:1}
 
-    .chips{display:flex; flex-wrap:wrap; gap:8px}
-    .chip{
-      padding:8px 10px;
-      font-size:12px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.03);
-      cursor:pointer;
-    }
-    .chip:hover{background: rgba(255,255,255,.05)}
     .muted{color:var(--muted)}
     .hidden{display:none !important}
 
@@ -208,49 +190,32 @@
         <div class="kbd">/</div>
       </div>
 
-      <div class="grid">
-        <div class="card">
-          <div class="head">
-            <div>
-              <p class="title">Hoofdcategorieën</p>
-              <p class="sub">Klik om onderdelen te openen</p>
-            </div>
-            <div class="pill" id="countPill">0 items</div>
-          </div>
-          <div class="body">
-            <div class="list" id="categoryList"></div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="head">
-            <div>
-              <p class="title">Snelkoppelingen</p>
-              <p class="sub">Handig op mobiel</p>
-            </div>
-          </div>
-          <div class="body">
-            <div class="chips" id="quickChips"></div>
-            <div class="note">
-              Tip: gebruik de zoekbalk als “command palette”. Typ en druk op Enter.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card" style="margin-top:12px">
+      <div class="card" id="resultsCard">
         <div class="head">
           <div>
             <p class="title">Zoekresultaten</p>
             <p class="sub muted" id="searchHint">Begin met typen om resultaten te zien</p>
           </div>
+          <div class="pill" id="countPill">0 items</div>
         </div>
         <div class="body">
           <div class="list" id="resultList"></div>
         </div>
       </div>
 
-      <div class="footer">v1 • alles in 1 bestand • later uitbreidbaar met meer pagina’s</div>
+      <div class="card" id="catsCard">
+        <div class="head">
+          <div>
+            <p class="title">Hoofdcategorieën</p>
+            <p class="sub">Klik om onderdelen te openen</p>
+          </div>
+        </div>
+        <div class="body">
+          <div class="list" id="categoryList"></div>
+        </div>
+      </div>
+
+      <div class="footer">v1 • alles in 1 bestand • later uitbreidbaar</div>
     </div>
 
     <div id="pageView" class="card hidden">
@@ -366,12 +331,9 @@
     const pageView = $("#pageView");
     const categoryList = $("#categoryList");
     const resultList = $("#resultList");
-    const quickChips = $("#quickChips");
     const searchInput = $("#searchInput");
     const searchHint = $("#searchHint");
     const countPill = $("#countPill");
-
-    function slugify(s){ return String(s).toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9\-]/g,''); }
 
     function allItems(){
       const out = [];
@@ -411,21 +373,6 @@
       }
     }
 
-    function renderQuickChips(){
-      // kies een paar populaire items als snelkoppeling
-      const pick = ["tandwielen", "motorbeveiliging", "modulaire-banden", "materialen"];
-      quickChips.innerHTML = "";
-      for (const id of pick){
-        const it = ITEMS.find(x => x.id === id);
-        if (!it) continue;
-        const c = document.createElement("div");
-        c.className = "chip";
-        c.textContent = it.name;
-        c.addEventListener("click", () => openItem(it.catId, it.id));
-        quickChips.appendChild(c);
-      }
-    }
-
     function renderResults(q){
       const query = q.trim().toLowerCase();
       resultList.innerHTML = "";
@@ -433,6 +380,7 @@
         searchHint.textContent = "Begin met typen om resultaten te zien";
         return;
       }
+
       const hits = ITEMS
         .map(it => {
           const hay = [
@@ -441,10 +389,9 @@
             it.catName,
             ...(it.keywords || [])
           ].join(" ").toLowerCase();
-          const score = hay.includes(query) ? 1 : 0;
-          return { it, score, hay };
+          return { it, ok: hay.includes(query) };
         })
-        .filter(x => x.score > 0)
+        .filter(x => x.ok)
         .slice(0, 25)
         .map(x => x.it);
 
@@ -466,11 +413,9 @@
     }
 
     function openCategory(catId){
-      // categoriepagina is gewoon een lijst met sub-items
       const cat = DATA.find(c => c.id === catId);
       if (!cat) return;
-      const hash = `#/cat/${catId}`;
-      location.hash = hash;
+      location.hash = `#/cat/${catId}`;
       showPage({
         crumb: cat.name,
         title: cat.name,
@@ -502,8 +447,8 @@
       const it = ITEMS.find(x => x.catId === catId && x.id === itemId);
       if (!it) return;
       location.hash = `#/item/${catId}/${itemId}`;
-      const content = document.createElement("div");
 
+      const content = document.createElement("div");
       if (it.table){
         const table = document.createElement("table");
         const thead = document.createElement("thead");
@@ -537,7 +482,7 @@
 
       const note = document.createElement("div");
       note.className = "note";
-      note.textContent = "Wil je hier later sorteren/filteren? Dat kunnen we toevoegen met een kleine JS-table helper.";
+      note.textContent = "Later kunnen we: sorteren, filters, favorieten en een ‘recent bekeken’ lijst toevoegen.";
       content.appendChild(note);
 
       showPage({
@@ -552,7 +497,6 @@
       homeView.classList.remove("hidden");
       pageView.classList.add("hidden");
       $("#crumbPill").textContent = "Home";
-      // focus niet altijd op iPhone; alleen desktop prettig
     }
 
     function showPage({crumb, title, desc, content}){
@@ -587,17 +531,14 @@
 
     // Events
     $("#backBtn").addEventListener("click", () => {
-      // als je diep zit: terug naar home
-      // hash back werkt fijn, maar op iOS soms verwarrend als je direct op item landt
       if (location.hash && location.hash !== "#/" && location.hash !== "#"){
-        // ga 1 stap terug in hash-navigatie
         history.back();
-        // fallback
         setTimeout(() => {
-          if (pageView.classList.contains("hidden")) return;
-          // als er niks gebeurde, naar home
-          showHome();
-          location.hash = "#/";
+          // fallback naar home
+          if (!pageView.classList.contains("hidden") && (location.hash === "" || location.hash === "#")){
+            showHome();
+            location.hash = "#/";
+          }
         }, 250);
       } else {
         showHome();
@@ -608,18 +549,16 @@
     searchInput.addEventListener("input", (e) => renderResults(e.target.value));
     searchInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter"){
-        const q = searchInput.value.trim();
+        const q = searchInput.value.trim().toLowerCase();
         if (!q) return;
-        const query = q.toLowerCase();
         const hit = ITEMS.find(it => {
           const hay = [it.name, it.desc || "", it.catName, ...(it.keywords || [])].join(" ").toLowerCase();
-          return hay.includes(query);
+          return hay.includes(q);
         });
         if (hit) openItem(hit.catId, hit.id);
       }
     });
 
-    // / to focus search (desktop handig)
     document.addEventListener("keydown", (e) => {
       if (e.key === "/" && document.activeElement !== searchInput){
         e.preventDefault();
@@ -632,7 +571,6 @@
     // Init
     setCount();
     renderCategories();
-    renderQuickChips();
     renderResults("");
     if (!location.hash) location.hash = "#/";
     route();
