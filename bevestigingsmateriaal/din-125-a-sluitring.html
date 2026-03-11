@@ -1,103 +1,173 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DIN 125-A Sluitring</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .page-wrap{
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px 16px 40px;
+    }
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    .back-link{
+      display:inline-block;
+      margin-bottom:16px;
+      color:#a8b3c2;
+      text-decoration:none;
+      font-size:14px;
+    }
 
-<title>DIN 125-A Sluitring</title>
+    .back-link:hover{
+      color:#e7eef7;
+    }
 
-<link rel="stylesheet" href="../style.css">
+    .detail-card{
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
 
-<style>
+    .detail-head{
+      padding:18px 18px 14px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.15);
+    }
 
-.din-container{
-max-width:900px;
-margin:auto;
-}
+    .detail-head h1{
+      margin:0;
+      font-size:28px;
+      color:#e7eef7;
+    }
 
-.din-image{
-width:100%;
-max-width:500px;
-display:block;
-margin:auto;
-}
+    .detail-head p{
+      margin:8px 0 0;
+      font-size:14px;
+      color:#a8b3c2;
+    }
 
-.din-title{
-background:#4a72b8;
-color:white;
-text-align:center;
-padding:10px;
-font-size:22px;
-font-weight:600;
-margin-top:15px;
-}
+    .detail-body{
+      padding:18px;
+    }
 
-.din-table{
-width:100%;
-border-collapse:collapse;
-}
+    .image-card{
+      background: rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:16px;
+      padding:16px;
+      margin-bottom:18px;
+      text-align:center;
+    }
 
-.din-table th{
-background:#4a72b8;
-color:white;
-padding:8px;
-}
+    .image-card img{
+      max-width:100%;
+      height:auto;
+      display:block;
+      margin:0 auto;
+      border-radius:10px;
+    }
 
-.din-table td{
-background:#d7dce7;
-padding:8px;
-text-align:center;
-}
+    .table-wrap{
+      overflow-x:auto;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:16px;
+      background: rgba(0,0,0,.18);
+    }
 
-.din-table tr:nth-child(even) td{
-background:#c7cddd;
-}
+    .din-table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:520px;
+    }
 
-</style>
+    .din-table th,
+    .din-table td{
+      padding:12px 14px;
+      text-align:center;
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
 
+    .din-table th{
+      background: rgba(255,255,255,.05);
+      color:#e7eef7;
+      font-size:14px;
+      font-weight:600;
+    }
+
+    .din-table td{
+      color:#e7eef7;
+      font-size:15px;
+    }
+
+    .din-table tr:nth-child(even) td{
+      background: rgba(255,255,255,.025);
+    }
+
+    .din-table tr:last-child td{
+      border-bottom:0;
+    }
+
+    .note{
+      margin-top:14px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px dashed rgba(255,255,255,.08);
+      background: rgba(255,255,255,.02);
+      color:#a8b3c2;
+      font-size:13px;
+    }
+  </style>
 </head>
-
 <body>
+  <div class="page-wrap">
+    <a class="back-link" href="index.html">← Terug naar Bevestigingsmateriaal</a>
 
-<div class="wrap">
+    <div class="detail-card">
+      <div class="detail-head">
+        <h1>DIN 125-A Sluitring</h1>
+        <p>Standaard afmetingen van sluitringen</p>
+      </div>
 
-<a href="index.html">← terug</a>
+      <div class="detail-body">
+        <div class="image-card">
+          <img src="../images/din125.png" alt="DIN 125-A sluitring tekening">
+        </div>
 
-<div class="din-container">
+        <div class="table-wrap">
+          <table class="din-table">
+            <thead>
+              <tr>
+                <th>M</th>
+                <th>D1</th>
+                <th>D2</th>
+                <th>H</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>M3</td><td>3,2</td><td>7</td><td>0,5</td></tr>
+              <tr><td>M4</td><td>4,3</td><td>9</td><td>0,8</td></tr>
+              <tr><td>M5</td><td>5,3</td><td>10</td><td>1</td></tr>
+              <tr><td>M6</td><td>6,4</td><td>12</td><td>1,6</td></tr>
+              <tr><td>M8</td><td>8,4</td><td>16</td><td>1,6</td></tr>
+              <tr><td>M10</td><td>10,5</td><td>20</td><td>2</td></tr>
+              <tr><td>M12</td><td>13</td><td>24</td><td>2,5</td></tr>
+              <tr><td>M14</td><td>15</td><td>28</td><td>2,5</td></tr>
+              <tr><td>M16</td><td>17</td><td>30</td><td>3</td></tr>
+              <tr><td>M18</td><td>19</td><td>34</td><td>3</td></tr>
+              <tr><td>M20</td><td>21</td><td>37</td><td>3</td></tr>
+            </tbody>
+          </table>
+        </div>
 
-<img src="../images/din125.png" class="din-image">
-
-<div class="din-title">
-DIN 125-A – Sluitring
-</div>
-
-<table class="din-table">
-
-<tr>
-<th>M</th>
-<th>D1</th>
-<th>D2</th>
-<th>H</th>
-</tr>
-
-<tr><td>M3</td><td>3,2</td><td>7</td><td>0,5</td></tr>
-<tr><td>M4</td><td>4,3</td><td>9</td><td>0,8</td></tr>
-<tr><td>M5</td><td>5,3</td><td>10</td><td>1</td></tr>
-<tr><td>M6</td><td>6,4</td><td>12</td><td>1,6</td></tr>
-<tr><td>M8</td><td>8,4</td><td>16</td><td>1,6</td></tr>
-<tr><td>M10</td><td>10,5</td><td>20</td><td>2</td></tr>
-<tr><td>M12</td><td>13</td><td>24</td><td>2,5</td></tr>
-<tr><td>M14</td><td>15</td><td>28</td><td>2,5</td></tr>
-<tr><td>M16</td><td>17</td><td>30</td><td>3</td></tr>
-<tr><td>M18</td><td>19</td><td>34</td><td>3</td></tr>
-<tr><td>M20</td><td>21</td><td>37</td><td>3</td></tr>
-
-</table>
-
-</div>
-
-</div>
-
+        <div class="note">
+          D1 = binnendiameter, D2 = buitendiameter, H = dikte.
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
