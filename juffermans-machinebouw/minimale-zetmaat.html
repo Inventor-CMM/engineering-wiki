@@ -1,63 +1,241 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Minimale zetmaat • Engineering Wiki</title>
-  <link rel="stylesheet" href="/engineering-wiki/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Minimale zetmaat</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .page-wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:20px 16px 40px;
+    }
+
+    .back-link{
+      display:inline-block;
+      margin-bottom:16px;
+      color:#a8b3c2;
+      text-decoration:none;
+      font-size:14px;
+    }
+
+    .back-link:hover{
+      color:#e7eef7;
+    }
+
+    .detail-card{
+      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow:0 10px 30px rgba(0,0,0,.35);
+    }
+
+    .detail-head{
+      padding:18px 18px 14px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      background:rgba(0,0,0,.15);
+    }
+
+    .detail-head h1{
+      margin:0;
+      font-size:28px;
+      color:#e7eef7;
+    }
+
+    .detail-head p{
+      margin:8px 0 0;
+      font-size:14px;
+      color:#a8b3c2;
+    }
+
+    .detail-body{
+      padding:18px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1.15fr 0.85fr;
+      gap:18px;
+      align-items:start;
+    }
+
+    @media (max-width: 900px){
+      .grid{
+        grid-template-columns:1fr;
+      }
+    }
+
+    .section-card{
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:16px;
+      padding:16px;
+      margin-bottom:16px;
+    }
+
+    .section-title{
+      margin:0 0 12px;
+      font-size:16px;
+      color:#e7eef7;
+    }
+
+    .image-box{
+      text-align:center;
+    }
+
+    .image-box img{
+      max-width:100%;
+      height:auto;
+      display:block;
+      margin:0 auto;
+      border-radius:10px;
+      background:#fff;
+    }
+
+    .table-wrap{
+      overflow-x:auto;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:16px;
+      background:rgba(0,0,0,.18);
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:360px;
+    }
+
+    th, td{
+      padding:11px 12px;
+      text-align:center;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      font-size:14px;
+      color:#e7eef7;
+    }
+
+    th{
+      background:rgba(255,255,255,.05);
+      font-weight:600;
+    }
+
+    td.text-left{
+      text-align:left;
+    }
+
+    tr:nth-child(even) td{
+      background:rgba(255,255,255,.025);
+    }
+
+    tr:last-child td{
+      border-bottom:0;
+    }
+
+    .note{
+      margin-top:14px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px dashed rgba(255,255,255,.08);
+      background:rgba(255,255,255,.02);
+      color:#a8b3c2;
+      font-size:13px;
+    }
+  </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="topbar">
-      <a class="brand" href="/engineering-wiki/index.html">
-        <div class="logo" aria-hidden="true"></div>
-        <h1>Engineering Wiki</h1>
-      </a>
-      <div class="pill">GitHub Pages</div>
-    </div>
+  <div class="page-wrap">
+    <a class="back-link" href="index.html">← Terug naar Juffermans Machinebouw</a>
 
-    <div class="breadcrumbs"><a href="/engineering-wiki/index.html">Home</a><span>›</span><a href="/engineering-wiki/juffermans-machinebouw/index.html">Juffermans Machinebouw</a><span>›</span><span>Minimale zetmaat</span></div>
-    <h2 class="page-title">Minimale zetmaat</h2>
-    <p class="page-sub">Juffermans Machinebouw</p>
-    <div style="margin-top:12px"><a class="btn" href="/engineering-wiki/juffermans-machinebouw/index.html">← Terug naar Juffermans Machinebouw</a></div>
-    
-    <div class="card"><div class="bodypad">
-      <div class="topic-grid two">
-        <div>
-          <table>
-            <thead><tr><th>A</th><th>B min</th><th>B optimaal</th></tr></thead>
-            <tbody>
-              <tr><td>0.8</td><td>8</td><td>8</td></tr>
-              <tr><td>1</td><td>8</td><td>8</td></tr>
-              <tr><td>1.5</td><td>8</td><td>8</td></tr>
-              <tr><td>2</td><td>8</td><td>12</td></tr>
-              <tr><td>3</td><td>16</td><td>24</td></tr>
-              <tr><td>4</td><td>24</td><td>30</td></tr>
-              <tr><td>5</td><td>40</td><td>40</td></tr>
-            </tbody>
-          </table>
-          <div style="height:12px"></div>
-          <table>
-            <thead><tr><th>B</th><th>C</th></tr></thead>
-            <tbody>
-              <tr><td>8</td><td>5</td></tr>
-              <tr><td>12</td><td>9.5</td></tr>
-              <tr><td>16</td><td>12</td></tr>
-              <tr><td>24</td><td>16</td></tr>
-              <tr><td>30</td><td>21</td></tr>
-              <tr><td>40</td><td>26</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div>
-          <div class="placeholder">Hier kun je later je schema of afbeelding van de minimale zetmaat plaatsen.<br><br>Bijvoorbeeld als <code>images/zetmaat.png</code>.</div>
+    <div class="detail-card">
+      <div class="detail-head">
+        <h1>Minimale zetmaat</h1>
+        <p>Referentie voor minimale en optimale zetmaten bij plaatwerk</p>
+      </div>
+
+      <div class="detail-body">
+        <div class="grid">
+
+          <div>
+            <div class="section-card">
+              <h2 class="section-title">A / B</h2>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th rowspan="2">A</th>
+                      <th colspan="2">B</th>
+                    </tr>
+                    <tr>
+                      <th>Min</th>
+                      <th>Optimal</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>0,8</td><td>8_0,8</td><td>8</td></tr>
+                    <tr><td>1</td><td>8_0,8</td><td>8</td></tr>
+                    <tr><td>1,5</td><td>8</td><td>8</td></tr>
+                    <tr><td>2</td><td>8</td><td>12</td></tr>
+                    <tr><td>2,5</td><td>12</td><td>16</td></tr>
+                    <tr><td>3</td><td>16</td><td>24</td></tr>
+                    <tr><td>4</td><td>24</td><td>30</td></tr>
+                    <tr><td>5</td><td>40</td><td>40</td></tr>
+                    <tr><td>6</td><td>40</td><td>60</td></tr>
+                    <tr><td>8</td><td>60</td><td>60</td></tr>
+                    <tr><td>10</td><td>80</td><td>80</td></tr>
+                    <tr><td>12</td><td>80</td><td>120</td></tr>
+                    <tr><td class="text-left">Traanplaat 2,5/4 ALU</td><td>24</td><td>30</td></tr>
+                    <tr><td class="text-left">Traanplaat 3,5/5 ALU</td><td>30</td><td>40</td></tr>
+                    <tr><td class="text-left">Traanplaat 5/6,5 ALU</td><td>30</td><td>40</td></tr>
+                    <tr><td class="text-left">Traanplaat 3/4,5 RVS</td><td>30</td><td>40</td></tr>
+                    <tr><td class="text-left">Traanplaat 3/5 ST</td><td>30</td><td>40</td></tr>
+                    <tr><td class="text-left">Traanplaat 4/6 ST</td><td>40</td><td>40</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="section-card">
+              <h2 class="section-title">B / C</h2>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>B</th>
+                      <th>C</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>8_0,8</td><td>5</td></tr>
+                    <tr><td>8</td><td>7,5</td></tr>
+                    <tr><td>12</td><td>9,5</td></tr>
+                    <tr><td>16</td><td>12</td></tr>
+                    <tr><td>24</td><td>16</td></tr>
+                    <tr><td>30</td><td>21</td></tr>
+                    <tr><td>40</td><td>26</td></tr>
+                    <tr><td>60</td><td>38</td></tr>
+                    <tr><td>80</td><td>49</td></tr>
+                    <tr><td>120</td><td>70</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="section-card image-box">
+              <h2 class="section-title">Schets</h2>
+              <img src="../images/minimale-zetmaat.jpg" alt="Schets minimale zetmaat">
+            </div>
+
+            <div class="note">
+              A = plaatdikte. B = minimale of optimale zetmaat. C = bijbehorende maat volgens overzicht.
+            </div>
+          </div>
+
         </div>
       </div>
-      <div class="note">Deze pagina heeft al een speciale layout gekregen zodat je hier later makkelijk je eigen tabelopzet en afbeelding in kunt zetten.</div>
-    </div></div>
-            
-            <div class="footer">Opzet klaar • inhoud later uitbreidbaar</div>
+    </div>
   </div>
-  <script src="/engineering-wiki/app.js"></script>
 </body>
 </html>
