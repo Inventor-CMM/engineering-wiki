@@ -1,32 +1,175 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>DIN 912 Inbusbout • Engineering Wiki</title>
-  <link rel="stylesheet" href="/engineering-wiki/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DIN 912 Inbusbout</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .page-wrap{
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px 16px 40px;
+    }
+
+    .back-link{
+      display:inline-block;
+      margin-bottom:16px;
+      color:#a8b3c2;
+      text-decoration:none;
+      font-size:14px;
+    }
+
+    .back-link:hover{
+      color:#e7eef7;
+    }
+
+    .detail-card{
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+
+    .detail-head{
+      padding:18px 18px 14px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.15);
+    }
+
+    .detail-head h1{
+      margin:0;
+      font-size:28px;
+      color:#e7eef7;
+    }
+
+    .detail-head p{
+      margin:8px 0 0;
+      font-size:14px;
+      color:#a8b3c2;
+    }
+
+    .detail-body{
+      padding:18px;
+    }
+
+    .image-card{
+      background: rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:16px;
+      padding:16px;
+      margin-bottom:18px;
+      text-align:center;
+    }
+
+    .image-card img{
+      max-width:100%;
+      height:auto;
+      display:block;
+      margin:0 auto;
+      border-radius:10px;
+    }
+
+    .table-wrap{
+      overflow-x:auto;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:16px;
+      background: rgba(0,0,0,.18);
+    }
+
+    .din-table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:520px;
+    }
+
+    .din-table th,
+    .din-table td{
+      padding:12px 14px;
+      text-align:center;
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+
+    .din-table th{
+      background: rgba(255,255,255,.05);
+      color:#e7eef7;
+      font-size:14px;
+      font-weight:600;
+    }
+
+    .din-table td{
+      color:#e7eef7;
+      font-size:15px;
+    }
+
+    .din-table tr:nth-child(even) td{
+      background: rgba(255,255,255,.025);
+    }
+
+    .din-table tr:last-child td{
+      border-bottom:0;
+    }
+
+    .note{
+      margin-top:14px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px dashed rgba(255,255,255,.08);
+      background: rgba(255,255,255,.02);
+      color:#a8b3c2;
+      font-size:13px;
+    }
+  </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="topbar">
-      <a class="brand" href="/engineering-wiki/index.html">
-        <div class="logo" aria-hidden="true"></div>
-        <h1>Engineering Wiki</h1>
-      </a>
-      <div class="pill">GitHub Pages</div>
-    </div>
+  <div class="page-wrap">
+    <a class="back-link" href="index.html">← Terug naar Bevestigingsmateriaal</a>
 
-    <div class="breadcrumbs"><a href="/engineering-wiki/index.html">Home</a><span>›</span><a href="/engineering-wiki/bevestigingsmateriaal/index.html">Bevestigingsmateriaal</a><span>›</span><span>DIN 912 Inbusbout</span></div>
-    <h2 class="page-title">DIN 912 Inbusbout</h2>
-    <p class="page-sub">Bevestigingsmateriaal</p>
-    <div style="margin-top:12px"><a class="btn" href="/engineering-wiki/bevestigingsmateriaal/index.html">← Terug naar Bevestigingsmateriaal</a></div>
-    
-    <div class="card"><div class="bodypad">
-      <div class="placeholder">Pagina voor <strong>DIN 912 Inbusbout</strong>.<br><br>Hier kun je later tabellen, maten, notities of afbeeldingen toevoegen.</div>
-    </div></div>
-            
-            <div class="footer">Opzet klaar • inhoud later uitbreidbaar</div>
+    <div class="detail-card">
+      <div class="detail-head">
+        <h1>DIN 912 Inbusbout</h1>
+        <p>Cilinderkopbout met inbus (hexagon socket) — conform DIN 912 / ISO 4762</p>
+      </div>
+
+      <div class="detail-body">
+        <div class="image-card">
+          <img src="../images/DIN912.png" alt="DIN 912 Inbusbout tekening">
+        </div>
+
+        <div class="table-wrap">
+          <table class="din-table">
+            <thead>
+              <tr>
+                <th>d</th>
+                <th>k</th>
+                <th>s</th>
+                <th>dk</th>
+                <th>b = VD</th>
+                <th>b &gt; VD</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>M3 x 0,5</td><td>3</td><td>2,5</td><td>5,5</td><td>20</td><td>18</td></tr>
+              <tr><td>M4 x 0,7</td><td>4</td><td>3</td><td>7</td><td>25</td><td>20</td></tr>
+              <tr><td>M5 x 0,8</td><td>5</td><td>4</td><td>8,5</td><td>25</td><td>22</td></tr>
+              <tr><td>M6 x 1</td><td>6</td><td>5</td><td>10</td><td>30</td><td>24</td></tr>
+              <tr><td>M8 x 1,25</td><td>8</td><td>6</td><td>13</td><td>35</td><td>28</td></tr>
+              <tr><td>M10 x 1,5</td><td>10</td><td>8</td><td>16</td><td>40</td><td>32</td></tr>
+              <tr><td>M12 x 1,75</td><td>12</td><td>10</td><td>18</td><td>50</td><td>36</td></tr>
+              <tr><td>M14 x 2</td><td>14</td><td>12</td><td>21</td><td>55</td><td>40</td></tr>
+              <tr><td>M16 x 2</td><td>16</td><td>14</td><td>24</td><td>60</td><td>44</td></tr>
+              <tr><td>M18 x 2,5</td><td>18</td><td>14</td><td>27</td><td>65</td><td>48</td></tr>
+              <tr><td>M20 x 2,5</td><td>20</td><td>17</td><td>30</td><td>75</td><td>52</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="note">
+          d = boutdiameter × spoed &nbsp;|&nbsp; k = kophoogte &nbsp;|&nbsp; s = inbussleutelwijdte &nbsp;|&nbsp; dk = kopdiameter &nbsp;|&nbsp; b = schroefdraadlengte (VD = volledige draad, &gt; VD = gedeeltelijke draad). Alle maten in mm.
+        </div>
+      </div>
+    </div>
   </div>
-  <script src="/engineering-wiki/app.js"></script>
 </body>
 </html>
